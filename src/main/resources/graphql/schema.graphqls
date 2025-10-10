@@ -1,0 +1,17 @@
+type Curso {
+    codigo: String!
+    titulo: String
+    descricao: String
+    cargaHoraria: Int
+}
+
+type Query {
+    listCursos(titulo: String, descricao: String, minCargaHoraria: Int, maxCargaHoraria : Int): [Curso]!
+    getCursoByCodigo(codigo: String!): Curso
+}
+
+type Mutation {
+    createCurso(codigo: String!, titulo: String, descricao: String, cargaHoraria: Int): Curso
+    updateCurso(codigo: String!, codigoNovo: String ,  titulo: String, descricao: String, cargaHoraria: Int): Curso
+deleteCurso(codigo: String!): Boolean!
+}

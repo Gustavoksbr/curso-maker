@@ -1,0 +1,105 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://exemplo.com/cursos"
+           xmlns:tns="http://exemplo.com/cursos"
+           elementFormDefault="qualified">
+
+    <!-- LISTAR CURSOS -->
+    <xs:element name="listCursosRequest" type="xs:anyType"/>
+    <xs:element name="listCursosResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cursos" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="codigo" type="xs:string"/>
+                            <xs:element name="titulo" type="xs:string" minOccurs="0"/>
+                            <xs:element name="descricao" type="xs:string" minOccurs="0"/>
+                            <xs:element name="cargaHoraria" type="xs:long" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- PROCURAR CURSOS -->
+    <xs:element name="procurarCursosRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="titulo" type="xs:string" minOccurs="0"/>
+                <xs:element name="descricao" type="xs:string" minOccurs="0"/>
+                <xs:element name="minCargaHoraria" type="xs:long" minOccurs="0"/>
+                <xs:element name="maxCargaHoraria" type="xs:long" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="procurarCursosResponse" type="tns:listCursosResponse"/>
+
+
+    <!-- CREATE CURSO -->
+    <xs:element name="createCursoRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="codigo" type="xs:string"/>
+                <xs:element name="titulo" type="xs:string" minOccurs="0"/>
+                <xs:element name="descricao" type="xs:string" minOccurs="0"/>
+                <xs:element name="cargaHoraria" type="xs:long" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="createCursoResponse" type="tns:CursoResponse"/>
+
+    <!-- UPDATE CURSO -->
+    <xs:element name="updateCursoRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="codigo" type="xs:string"/>
+                <xs:element name="codigoNovo" type="xs:string" minOccurs="0"/>
+                <xs:element name="titulo" type="xs:string" minOccurs="0"/>
+                <xs:element name="descricao" type="xs:string" minOccurs="0"/>
+                <xs:element name="cargaHoraria" type="xs:long" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updateCursoResponse" type="tns:CursoResponse"/>
+
+    <!-- DELETE CURSO -->
+    <xs:element name="deleteCursoRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="codigo" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="deleteCursoResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="success" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET CURSO -->
+    <xs:element name="getCursoRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="codigo" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CursoResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="codigo" type="xs:string"/>
+                <xs:element name="titulo" type="xs:string" minOccurs="0"/>
+                <xs:element name="descricao" type="xs:string" minOccurs="0"/>
+                <xs:element name="cargaHoraria" type="xs:long" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
