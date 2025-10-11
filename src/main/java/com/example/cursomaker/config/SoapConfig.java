@@ -39,7 +39,7 @@ public class SoapConfig {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("CursoPort");
         wsdl11Definition.setLocationUri("/ws");
-        wsdl11Definition.setTargetNamespace("http://exemplo.com/cursos");
+        wsdl11Definition.setTargetNamespace("https://cursos-api-7vr6.onrender.com");
         wsdl11Definition.setSchema(cursosSchema);
         return wsdl11Definition;
     }

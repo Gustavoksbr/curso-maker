@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "CursoResponse", namespace = "http://exemplo.com/cursos")
+@XmlRootElement(name = "CursoResponse", namespace = "https://cursos-api-7vr6.onrender.com")
 public class CursoResponse {
 
     @XmlElement(required = true)

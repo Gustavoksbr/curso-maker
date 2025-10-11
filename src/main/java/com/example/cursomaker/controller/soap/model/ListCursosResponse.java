@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "listCursosResponse", namespace = "http://exemplo.com/cursos")
+@XmlRootElement(name = "listCursosResponse", namespace = "https://cursos-api-7vr6.onrender.com")
 public class ListCursosResponse {
     @XmlElement(name = "cursos")
     private List<CursoResponse> cursos = new ArrayList<>();

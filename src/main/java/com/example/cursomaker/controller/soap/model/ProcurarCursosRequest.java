@@ -10,14 +10,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "procurarCursosRequest", namespace = "http://exemplo.com/cursos")
+@XmlRootElement(name = "procurarCursosRequest", namespace = "https://cursos-api-7vr6.onrender.com")
 public class ProcurarCursosRequest {
-    @XmlElement(name = "titulo", namespace = "http://exemplo.com/cursos", required = false)
+    @XmlElement(name = "titulo", namespace = "https://cursos-api-7vr6.onrender.com", required = false)
     private String titulo;
-    @XmlElement(name = "descricao", namespace = "http://exemplo.com/cursos", required = false)
+    @XmlElement(name = "descricao", namespace = "https://cursos-api-7vr6.onrender.com", required = false)
     private String descricao;
-    @XmlElement(name = "minCargaHoraria", namespace = "http://exemplo.com/cursos", required = false)
+    @XmlElement(name = "minCargaHoraria", namespace = "https://cursos-api-7vr6.onrender.com", required = false)
     private Long minCargaHoraria;
-    @XmlElement(name = "maxCargaHoraria", namespace = "http://exemplo.com/cursos", required = false)
+    @XmlElement(name = "maxCargaHoraria", namespace = "https://cursos-api-7vr6.onrender.com", required = false)
     private Long maxCargaHoraria;
 }

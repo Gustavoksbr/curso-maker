@@ -5,5 +5,5 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "listCursosRequest", namespace = "http://exemplo.com/cursos")
+@XmlRootElement(name = "listCursosRequest", namespace = "https://cursos-api-7vr6.onrender.com")
 public class ListCursosRequest {}

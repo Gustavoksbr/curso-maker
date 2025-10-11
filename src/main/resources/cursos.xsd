@@ -1,6 +1,6 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://exemplo.com/cursos"
-           xmlns:tns="http://exemplo.com/cursos"
+           targetNamespace="https://cursos-api-7vr6.onrender.com"
+           xmlns:tns="https://cursos-api-7vr6.onrender.com"
            elementFormDefault="qualified">
 
     <!-- LISTAR CURSOS -->

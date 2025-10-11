@@ -18,7 +18,7 @@ import java.util.List;
 @Profile("api-soap")
 public class CursoSoapController{
 
-    private static final String NAMESPACE_URI = "http://exemplo.com/cursos";
+    private static final String NAMESPACE_URI = "https://cursos-api-7vr6.onrender.com";
 
     private final CursoService cursoService;
     private final CursoValidator cursoValidator;

@@ -10,8 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "deleteCursoRequest", namespace = "http://exemplo.com/cursos")
+@XmlRootElement(name = "deleteCursoRequest", namespace = "https://cursos-api-7vr6.onrender.com")
 public class DeleteCursoRequest {
-    @XmlElement(name = "codigo", namespace = "http://exemplo.com/cursos", required = true)
+    @XmlElement(name = "codigo", namespace = "https://cursos-api-7vr6.onrender.com", required = true)
     private String codigo;
 }
