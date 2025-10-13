@@ -15,4 +15,7 @@ public class CursoParaAtualizar {
     private String titulo;
     private String descricao;
     private Long cargaHoraria;
+    public Curso toDomain(){
+        return new Curso(codigoNovo, titulo, descricao, cargaHoraria);
+    }
 }

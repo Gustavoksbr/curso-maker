@@ -55,7 +55,7 @@ public class CursoRepository {
         if(cursoParaAtualizar.getCodigoNovo() != null && !cursoParaAtualizar.getCodigoNovo().isBlank()) {
             cursoEncontrado.setCodigo(cursoParaAtualizar.getCodigoNovo());
         }
-         cursoEncontrado.update(cursoEncontrado.toDomain());
+        cursoEncontrado.update(cursoParaAtualizar.toDomain());
         this.cursoMongoRepository.save(cursoEncontrado);
         return cursoEncontrado.toDomain();
     }
