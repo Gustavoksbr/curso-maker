@@ -46,19 +46,35 @@ public class CursoRepository {
         this.cursoMongoRepository.save(cursoParaCriar);
         return curso;
     }
-    public Curso update(CursoParaAtualizar cursoParaAtualizar) {
-        CursoEntity cursoEncontrado = this.cursoMongoRepository.findByCodigo(cursoParaAtualizar.getCodigo()).orElseThrow(()-> new CursoNaoEncontrado("Curso não encontrado"));
+    public Curso update(CursoParaAtualizar dto) {
+        CursoEntity entity = this.cursoMongoRepository.findByCodigo(dto.getCodigo())
+                .orElseThrow(() -> new CursoNaoEncontrado("Curso não encontrado"));
 
-        if (this.cursoMongoRepository.existsByCodigo(cursoParaAtualizar.getCodigoNovo())) {
-            throw new Erro409("Já existe um curso com o código novo fornecido");
+        String codigoFinal = dto.getCodigo();
+
+        if (dto.getCodigoNovo() != null &&
+                !dto.getCodigoNovo().isBlank() &&
+                !dto.getCodigoNovo().equals(dto.getCodigo())) {
+
+            if (this.cursoMongoRepository.existsByCodigo(dto.getCodigoNovo())) {
+                throw new Erro409("Já existe um curso com o código novo fornecido");
+            }
+
+            codigoFinal = dto.getCodigoNovo();
         }
-        if(cursoParaAtualizar.getCodigoNovo() != null && !cursoParaAtualizar.getCodigoNovo().isBlank()) {
-            cursoEncontrado.setCodigo(cursoParaAtualizar.getCodigoNovo());
-        }
-        cursoEncontrado.update(cursoParaAtualizar.toDomain());
-        this.cursoMongoRepository.save(cursoEncontrado);
-        return cursoEncontrado.toDomain();
+
+        entity.update(Curso.builder()
+                .codigo(codigoFinal)
+                .titulo(dto.getTitulo())
+                .descricao(dto.getDescricao())
+                .cargaHoraria(dto.getCargaHoraria())
+                .build());
+
+        this.cursoMongoRepository.save(entity);
+        return entity.toDomain();
     }
+
+
 
     public void delete(String codigo) {
         if(!this.cursoMongoRepository.existsByCodigo(codigo)){
