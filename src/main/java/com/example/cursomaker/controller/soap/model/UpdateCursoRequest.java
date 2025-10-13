@@ -1,6 +1,5 @@
 package com.example.cursomaker.controller.soap.model;
 
-import com.example.cursomaker.dominio.Curso;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;

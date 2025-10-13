@@ -1,6 +1,6 @@
 package com.example.cursomaker.repository;
 
-import com.example.cursomaker.dominio.Curso;
+import com.example.cursomaker.domain.model.Curso;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,9 +39,9 @@ public class CursoEntity {
         return new Curso(codigo, titulo, descricao, cargaHoraria);
     }
     public void update(Curso curso){
-        this.codigo = curso.getCodigo();
-        this.titulo = curso.getTitulo();
-        this.descricao = curso.getDescricao();
-        this.cargaHoraria = curso.getCargaHoraria();
+        if (curso.getCodigo() != null) this.codigo = curso.getCodigo();
+        if (curso.getTitulo() != null) this.titulo = curso.getTitulo();
+        if (curso.getDescricao() != null) this.descricao = curso.getDescricao();
+        if (curso.getCargaHoraria() != null) this.cargaHoraria = curso.getCargaHoraria();
     }
 }

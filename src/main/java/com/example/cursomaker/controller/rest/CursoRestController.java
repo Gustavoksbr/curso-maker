@@ -1,10 +1,10 @@
 package com.example.cursomaker.controller.rest;
 
-import com.example.cursomaker.controller.rest.model.CursoParaAtualizar;
-import com.example.cursomaker.controller.rest.model.CursoParaCriar;
-import com.example.cursomaker.dominio.Curso;
-import com.example.cursomaker.dominio.CursoService;
-import jakarta.validation.Valid;
+import com.example.cursomaker.controller.rest.model.CursoParaAtualizarRestRequest;
+import com.example.cursomaker.controller.rest.model.CursoParaCriarRestRequest;
+import com.example.cursomaker.domain.model.Curso;
+import com.example.cursomaker.domain.CursoService;
+import com.example.cursomaker.domain.model.CursoParaAtualizar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
@@ -40,18 +40,21 @@ public class CursoRestController {
     }
 
     @PostMapping()
-    public ResponseEntity<Curso> createCurso(@RequestBody @Valid CursoParaCriar curso) {
+    public ResponseEntity<Curso> createCurso(@RequestBody CursoParaCriarRestRequest curso) {
         Curso createdCurso = cursoService.create(curso.toDomain());
         return ResponseEntity.status(201).body(createdCurso);
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<Curso> updateCurso(@RequestBody @Valid CursoParaAtualizar cursoRequest, @PathVariable String codigo) {
-        if (cursoRequest.getCodigoNovo() == null) {
-            cursoRequest.setCodigoNovo(codigo);
-        }
-        Curso curso = new Curso(cursoRequest.getCodigoNovo(), cursoRequest.getTitulo(), cursoRequest.getDescricao(), cursoRequest.getCargaHoraria());
-        Curso updatedCurso = cursoService.update(curso, codigo);
+    public ResponseEntity<Curso> updateCurso(@RequestBody CursoParaAtualizarRestRequest cursoRequest, @PathVariable String codigo) {
+        CursoParaAtualizar cursoParaAtualizar = CursoParaAtualizar.builder()
+                .codigo(codigo)
+                .codigoNovo(cursoRequest.getCodigoNovo())
+                .titulo(cursoRequest.getTitulo())
+                .descricao(cursoRequest.getDescricao())
+                .cargaHoraria(cursoRequest.getCargaHoraria())
+                .build();
+        Curso updatedCurso = cursoService.update(cursoParaAtualizar);
         return ResponseEntity.ok(updatedCurso);
     }
 

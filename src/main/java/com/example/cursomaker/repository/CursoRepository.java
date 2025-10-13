@@ -1,6 +1,7 @@
 package com.example.cursomaker.repository;
 
-import com.example.cursomaker.dominio.Curso;
+import com.example.cursomaker.domain.model.Curso;
+import com.example.cursomaker.domain.model.CursoParaAtualizar;
 import com.example.cursomaker.exceptions.Erro409;
 import com.example.cursomaker.exceptions.CursoNaoEncontrado;
 import com.example.cursomaker.exceptions.NenhumCursoEncontrado;
@@ -45,11 +46,18 @@ public class CursoRepository {
         this.cursoMongoRepository.save(cursoParaCriar);
         return curso;
     }
-    public Curso update(Curso curso,String codigo) {
-        CursoEntity cursoEncontrado = this.cursoMongoRepository.findByCodigo(codigo).orElseThrow(()-> new CursoNaoEncontrado("Curso não encontrado"));
-        cursoEncontrado.update(curso);
+    public Curso update(CursoParaAtualizar cursoParaAtualizar) {
+        CursoEntity cursoEncontrado = this.cursoMongoRepository.findByCodigo(cursoParaAtualizar.getCodigo()).orElseThrow(()-> new CursoNaoEncontrado("Curso não encontrado"));
+
+        if (this.cursoMongoRepository.existsByCodigo(cursoParaAtualizar.getCodigoNovo())) {
+            throw new Erro409("Já existe um curso com o código novo fornecido");
+        }
+        if(cursoParaAtualizar.getCodigoNovo() != null && !cursoParaAtualizar.getCodigoNovo().isBlank()) {
+            cursoEncontrado.setCodigo(cursoParaAtualizar.getCodigoNovo());
+        }
+         cursoEncontrado.update(cursoEncontrado.toDomain());
         this.cursoMongoRepository.save(cursoEncontrado);
-        return curso;
+        return cursoEncontrado.toDomain();
     }
 
     public void delete(String codigo) {

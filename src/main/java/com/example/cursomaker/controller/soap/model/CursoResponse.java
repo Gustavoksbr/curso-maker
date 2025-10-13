@@ -1,6 +1,6 @@
 package com.example.cursomaker.controller.soap.model;
 
-import com.example.cursomaker.dominio.Curso;
+import com.example.cursomaker.domain.model.Curso;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -23,7 +23,7 @@ public class CursoResponse {
     private String descricao;
     private Long cargaHoraria;
 
-    CursoResponse( Curso curso){
+    public CursoResponse( Curso curso){
         this.codigo = curso.getCodigo();
         this.titulo = curso.getTitulo();
         this.descricao = curso.getDescricao();

@@ -1,4 +1,4 @@
-package com.example.cursomaker.dominio;
+package com.example.cursomaker.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
-public class Curso {
+public class CursoParaAtualizar {
     private String codigo;
+    private String codigoNovo;
     private String titulo;
     private String descricao;
     private Long cargaHoraria;

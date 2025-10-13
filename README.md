@@ -13,10 +13,11 @@ Este projeto é um **sistema de gerenciamento de cursos** desenvolvido em **Java
 - **GraphQL**
 - **SOAP**
 
+A api está hospedada em: https://cursos-api-7vr6.onrender.com, e você pode testá-la em: https://api-comparator.vercel.app/
+
 ---
 
 ## ⚡ Rodando o projeto localmente
-
 
 ### ⚙️ Requisitos
 
@@ -64,12 +65,13 @@ O sistema permite realizar um CRUD com cada um dos tipos de API:
 * [CursoRestController](./src/main/java/com/example/cursomaker/controller/rest/CursoRestController.java): expõe endpoints REST.
 * [CursoGraphqlController](./src/main/java/com/example/cursomaker/controller/graphql/CursoGraphqlController.java): define queries e mutations GraphQL conforme o esquema em [schema.graphqls](./src/main/resources/graphql/schema.graphqls)
 * [CursoSoapController](./src/main/java/com/example/cursomaker/controller/soap/CursoSoapController.java): define endpoints SOAP conforme o esquema em [cursos.xsd](./src/main/resources/cursos.xsd)
-* [CursoValidator](./src/main/java/com/example/cursomaker/controller/validator/CursoValidator.java): valida dados de entrada para GRAPHQL e SOAP. Faz a mesma função da biblioteca jakarta.validation usado no REST.
 
 **2. Domain Layer** – Contém as regras de negócio.
 
-* [CursoService](./src/main/java/com/example/cursomaker/dominio/CursoService.java): Onde se isola a lógica de negócio e a comunicação entre diversos serviços. Por ora só se comunica com o repository, mas é um padrão que pode facilitar caso o projeto venha a ter mais serviços (como envio de email, autenticação, etc)
-* [Curso](./src/main/java/com/example/cursomaker/dominio/Curso.java) esas model é compartilhada por toda a aplicação e serve de DTO
+* [CursoService](./src/main/java/com/example/cursomaker/domain/CursoService.java): Onde se isola as regras de negócio e se dá a comunicação entre os serviços com lógica pura (agnóstico de bibliotecas externas próprias para tais serviços).
+* [Model](./src/main/java/com/example/cursomaker/domain/model) essas models são compartilhadas por toda a aplicação e servem de DTO
+* [CursoValidator](src/main/java/com/example/cursomaker/domain/CursoValidator.java): valida os dados de entrada
+
 
 **3. Repository Layer** – Realiza o acesso ao banco de dados MongoDB.
 

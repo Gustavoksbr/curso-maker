@@ -1,6 +1,7 @@
-package com.example.cursomaker.controller.validator;
+package com.example.cursomaker.domain;
 
-import com.example.cursomaker.dominio.Curso;
+import com.example.cursomaker.domain.model.Curso;
+import com.example.cursomaker.domain.model.CursoParaAtualizar;
 import com.example.cursomaker.exceptions.ErroDeRequisicaoGeral;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +35,9 @@ public class CursoValidator {
         }
 
         // ---- Descrição ----
+        if(isBlank(dto.getDescricao())) {
+            throw new ErroDeRequisicaoGeral("Campo 'descricao': não deve estar em branco.");
+        }
         if (dto.getDescricao() != null && dto.getDescricao().length() > 100) {
             throw new ErroDeRequisicaoGeral("Campo 'descricao': deve ter no máximo 100 caracteres.");
         }
@@ -47,13 +51,17 @@ public class CursoValidator {
         }
     }
 
-    public void validarAtualizacao(Curso dto, String codigoNovo) {
+    public void validarAtualizacao(CursoParaAtualizar dto) {
 
-        if (!isBlank(codigoNovo)) {
-            if (codigoNovo.length() > 15) {
+        if (isBlank(dto.getCodigo())) {
+            throw new ErroDeRequisicaoGeral("Escolha o código do curso que deseja atualizar.");
+        }
+
+        if (!isBlank(dto.getCodigoNovo())) {
+            if (dto.getCodigoNovo().length() > 15) {
                 throw new ErroDeRequisicaoGeral("Campo 'codigoNovo': deve ter no máximo 15 caracteres.");
             }
-            if (!CODIGO_PATTERN.matcher(codigoNovo).matches()) {
+            if (!CODIGO_PATTERN.matcher(dto.getCodigoNovo()).matches()) {
                 throw new ErroDeRequisicaoGeral("Campo 'codigoNovo': deve conter apenas letras e números.");
             }
         }
