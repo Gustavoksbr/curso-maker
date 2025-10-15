@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-@Profile("api-graphql")
+
 @Controller
 public class CursoGraphqlController {
     private final CursoService cursoService;
@@ -42,7 +42,7 @@ public class CursoGraphqlController {
   }
     @MutationMapping
     public Curso updateCurso(@Argument String codigo, @Argument String codigoNovo,  @Argument String titulo, @Argument String descricao, @Argument Long cargaHoraria) {
-        CursoParaAtualizar curso = CursoParaAtualizar.builder().codigo(codigo).codigoNovo(codigoNovo).titulo(titulo).descricao(descricao).build();
+        CursoParaAtualizar curso = CursoParaAtualizar.builder().codigo(codigo).codigoNovo(codigoNovo).titulo(titulo).descricao(descricao).cargaHoraria(cargaHoraria).build();
         return cursoService.update(curso);
     }
     @MutationMapping

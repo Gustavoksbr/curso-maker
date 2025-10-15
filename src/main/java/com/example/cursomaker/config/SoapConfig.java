@@ -20,7 +20,6 @@ import java.util.Locale;
 
 @Configuration
 @EnableWs
-@Profile("api-soap")
 public class SoapConfig {
 
     @Bean

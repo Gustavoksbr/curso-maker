@@ -62,7 +62,6 @@ public class CursoRepository {
 
             codigoFinal = dto.getCodigoNovo();
         }
-
         entity.update(Curso.builder()
                 .codigo(codigoFinal)
                 .titulo(dto.getTitulo())
@@ -73,9 +72,6 @@ public class CursoRepository {
         this.cursoMongoRepository.save(entity);
         return entity.toDomain();
     }
-
-
-
     public void delete(String codigo) {
         if(!this.cursoMongoRepository.existsByCodigo(codigo)){
             throw new CursoNaoEncontrado("Curso não encontrado");

@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cursos")
-@Profile("api-rest")
 public class CursoRestController {
 
     private CursoService cursoService;

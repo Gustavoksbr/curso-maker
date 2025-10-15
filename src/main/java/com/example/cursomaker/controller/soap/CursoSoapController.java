@@ -14,7 +14,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import java.util.List;
 
 @Endpoint
-@Profile("api-soap")
+
 public class CursoSoapController{
 
     private static final String NAMESPACE_URI = "https://cursos-api-7vr6.onrender.com";

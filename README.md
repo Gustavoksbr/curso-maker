@@ -33,11 +33,12 @@ cd cursomaker
 
 ### 2️⃣ Configurar o banco de dados
 
-Crie um banco no **MongoDB** com o nome `cursos_db` ou edite o arquivo `application.properties` com sua URI:
+Crie um banco no **MongoDB** e edite o arquivo [application.properties](./src/main/resources/application.properties) com sua URI. Por ex:
 
 ```properties
 spring.data.mongodb.uri=mongodb://localhost:27017/cursos_db
 ```
+**obs: caso faça deploy em produção, é recomendável usar variáveis de ambiente
 
 ### 3️⃣ Executar o projeto
 
@@ -68,7 +69,8 @@ O sistema permite realizar um CRUD com cada um dos tipos de API:
 
 **2. Domain Layer** – Contém as regras de negócio.
 
-* [CursoService](./src/main/java/com/example/cursomaker/domain/CursoService.java): Onde se isola as regras de negócio e se dá a comunicação entre os serviços com lógica pura (agnóstico de bibliotecas externas próprias para tais serviços).
+* [CursoService](./src/main/java/com/example/cursomaker/domain/CursoService.java): Onde se isola as regras de negócio e se dá a comunicação entre os serviços com lógica pura (agnóstico de bibliotecas externas próprias para tais serviços). Cada método é um caso de uso, utiliza a classe
+  [CursoValidator](src/main/java/com/example/cursomaker/domain/CursoValidator.java) e [CursoRepository](./src/main/java/com/example/cursomaker/repository/CursoRepository.java), é chamado pelos controllers e os retorna uma resposta aos controllers
 * [Model](./src/main/java/com/example/cursomaker/domain/model) essas models são compartilhadas por toda a aplicação e servem de DTO
 * [CursoValidator](src/main/java/com/example/cursomaker/domain/CursoValidator.java): valida os dados de entrada
 
@@ -77,22 +79,73 @@ O sistema permite realizar um CRUD com cada um dos tipos de API:
 
 * [CursoRepository](./src/main/java/com/example/cursomaker/repository/CursoRepository.java): responsável pelas operações no banco de dados
 
+
 ---
 
-## 🌐 Perfis de Execução
+## ⚙️ Testes automatizados
 
-Cada tipo de API é ativado por um *profile*:
+Os testes foram projetados para se alinharem à função e responsabilidade principal de cada classe. A complexidade e quantidade de teste aumenta conforme o número de exceções tratadas
 
-| Tipo de API | Profile       | Endpoint principal |
-| ----------- | ------------- |--------------------|
-| REST        | `api-rest`    | `/cursos`          |
-| GraphQL     | `api-graphql` | `/graphql`         |
-| SOAP        | `api-soap`    | `/ws/cursos`       |
+####  [CursoRepositoryTestIntegration](./src/test/java/com/example/cursomaker/repository/CursoRepositoryTestIntegration.java)
 
-No arquivo `application.properties` você pode escolher quais profiles ativar. Na api hospedada estão todos:
+* **Tipo:** Teste de integração.
+* **Objetivo:** Validar o comportamento do repositório e sua comunicação com o MongoDB.
+* **Descrição:**
 
-```properties
-spring.profiles.active=api-rest,api-graphql,api-soap
+    * Testa a persistência, atualização e remoção de cursos.
+    * Verifica lançamentos de exceções específicas do repositório.
+    * Por se comunicar diretamente com `CursoMongoRepository` (que estende `MongoRepository`), este teste cobre efetivamente **duas camadas**: `CursoRepository` e `CursoMongoRepository`.
+
+####  [CursoValidatorTestUnitary](./src/test/java/com/example/cursomaker/domain/CursoValidatorTestUnitary.java)
+
+* **Tipo:** Teste unitário.
+* **Objetivo:** Verificar a lógica pura de validação dos dados dos cursos.
+* **Descrição:**
+
+    * Testa cenários de erro e sucesso para cada campo (código, título, descrição e carga horária).
+    * É completamente isolado de outras camadas.
+    * Simula diferentes exceções (`ErroDeRequisicaoGeral`) lançadas pelo `CursoValidator`.
+
+#### [CursoServiceTestUnitary](./src/test/java/com/example/cursomaker/domain/CursoServiceTestUnitary.java)
+
+* **Tipo:** Teste unitário.
+* **Objetivo:** Garantir o correto funcionamento da orquestração de serviços.
+* **Descrição:**
+
+    * A lógica é simples, pois a maior chance de falhas está dentro dos mocks (CursoValidator e CursoRepository)
+    * Caso o projeto venha ter mais serviços, este teste unitário se tornará mais valioso.
+
+#### [CursoRestTestE2E](./src/test/java/com/example/cursomaker/controller/rest/CursoRestTestE2E.java), [CursoGraphqlTestE2E](./src/test/java/com/example/cursomaker/controller/graphql/CursoGraphqlTestE2E.java) e [CursoSoapTestE2E](./src/test/java/com/example/cursomaker/controller/soap/CursoSoapTestE2E.java)
+
+* **Tipo:** Testes ponta a ponta (E2E).
+* **Objetivo:** Validar o comportamento completo das APIs REST, GraphQL e SOAP.
+* **Descrição:**
+
+    * Utilizam `private WebTestClient webTestClient` (da biblioteca WebFlux) para realizar chamadas reais às rotas configuradas. Essa classe é flexível para os 3 tipos de API.
+    * Simulam requisições reais de usuários às APIs e verificam o comportamento do ciclo completo.
+    * Permitem verificar tanto o formato da resposta quanto o código de status retornado.
+
+
+###  Execução dos testes
+
+Primeiro defina a url do MongoDB de testes em [application-test.properties](./src/test/resources/application-test.properties):
+
+```dotenv
+spring.data.mongodb.uri=mongodb://localhost:27017/testes_db
+```
+
+**obs: é recomendável usar um banco de dados separado para testes, para evitar conflitos com dados reais
+
+Para executar todos os testes:
+
+```bash
+mvn test
+```
+
+Ou para executar apenas um grupo específico:
+
+```bash
+mvn -Dtest=CursoRestTestE2E test
 ```
 
 ---
