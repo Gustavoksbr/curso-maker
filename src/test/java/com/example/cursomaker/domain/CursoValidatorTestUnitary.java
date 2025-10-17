@@ -44,7 +44,7 @@ class CursoValidatorTestUnitary {
 
     @Test
     void deveLancarErroQuandoTituloEmBrancoNaCriacao() {
-        Curso curso = new Curso("COD123", " ", "Descricao", 10L);
+        Curso curso = new Curso("COD123", "", "Descricao", 10L);
         ErroDeRequisicaoGeral e = assertThrows(ErroDeRequisicaoGeral.class, () -> validator.validarCriacao(curso));
         assertTrue(e.getMessage().contains("titulo"));
     }

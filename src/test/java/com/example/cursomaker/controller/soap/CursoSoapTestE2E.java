@@ -1,6 +1,8 @@
 package com.example.cursomaker.controller.soap;
 
+import com.example.cursomaker.repository.CursoMongoRepository;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
@@ -12,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CursoSoapTestE2E {
 
     @LocalServerPort
@@ -19,13 +22,20 @@ class CursoSoapTestE2E {
 
     private WebTestClient webTestClient;
 
+    @Autowired
+    private CursoMongoRepository cursoMongoRepository;
+
     @BeforeEach
     void setupClient() {
         webTestClient = WebTestClient.bindToServer()
                 .baseUrl("http://localhost:" + port + "/ws/cursos")
                 .build();
     }
-
+    @BeforeAll
+    @AfterAll
+    void limparTudo(){
+        cursoMongoRepository.deleteAll();
+    }
     @Test
     @Order(1)
     void deveCriarCursoComSucessoComSucesso() {

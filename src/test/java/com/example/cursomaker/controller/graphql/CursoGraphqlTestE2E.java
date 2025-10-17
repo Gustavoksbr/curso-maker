@@ -32,12 +32,13 @@ class CursoGraphqlTestE2E {
                 .build();
     }
 
+    @BeforeAll
     @AfterAll
     void limparTudo(){
         cursoMongoRepository.deleteAll();
     }
     @Test
-    @Order(2)
+    @Order(1)
     void deveCriarCursoComSucesso() {
         var query = """
         mutation {
@@ -70,7 +71,7 @@ class CursoGraphqlTestE2E {
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     void deveLancarErroAoCriarCursoComCodigoExistente() {
         var mutation = """
     mutation {
@@ -96,7 +97,7 @@ class CursoGraphqlTestE2E {
                 .jsonPath("$.errors[0].message").exists();
     }
     @Test
-    @Order(2)
+    @Order(3)
     void deveBuscarCursoPorCodigoComSucesso() {
         var query = """
         query {

@@ -1,5 +1,6 @@
 package com.example.cursomaker.controller.rest;
 
+import com.example.cursomaker.repository.CursoMongoRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,9 +11,10 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CursoRestTestE2E {
 
     @LocalServerPort
@@ -20,6 +22,8 @@ class CursoRestTestE2E {
 
     @Autowired
     private WebTestClient webTestClient;
+    @Autowired
+    private CursoMongoRepository cursoMongoRepository;
 
     @BeforeEach
     void setupClient() {
@@ -28,6 +32,11 @@ class CursoRestTestE2E {
                 .build();
     }
 
+    @BeforeAll
+    @AfterAll
+    void limparTudo(){
+        cursoMongoRepository.deleteAll();
+    }
     // ------------------------------------------------------
     @Test
     @Order(1)

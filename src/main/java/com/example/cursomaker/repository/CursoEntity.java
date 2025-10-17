@@ -39,9 +39,9 @@ public class CursoEntity {
         return new Curso(codigo, titulo, descricao, cargaHoraria);
     }
     public void update(Curso curso){
-        if (curso.getCodigo() != null && !curso.getCodigo().isEmpty()) this.codigo = curso.getCodigo();
-        if (curso.getTitulo() != null) this.titulo = curso.getTitulo();
-        if (curso.getDescricao() != null) this.descricao = curso.getDescricao();
+        if (curso.getCodigo() != null && !curso.getCodigo().isBlank()) this.codigo = curso.getCodigo();
+        if (curso.getTitulo() != null && !curso.getTitulo().isBlank()) this.titulo = curso.getTitulo();
+        if (curso.getDescricao() != null && !curso.getDescricao().isBlank()) this.descricao = curso.getDescricao();
         if (curso.getCargaHoraria() != null) this.cargaHoraria = curso.getCargaHoraria();
     }
 }

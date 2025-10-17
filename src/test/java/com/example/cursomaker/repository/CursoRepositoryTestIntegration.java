@@ -110,23 +110,62 @@ class CursoRepositoryTestIntegration {
     // ----------------------------------------------------
     @Test
     void deveAtualizarCursoComSucesso() {
-        cursoRepository.create(new Curso("CURSO1", "Java", "Curso Antigo", 30L));
+        cursoRepository.create(
+                Curso.builder()
+                        .codigo("CURSO1")
+                        .titulo("Java")
+                        .descricao("Curso Antigo")
+                        .cargaHoraria(30L)
+                        .build());
 
         CursoParaAtualizar dto = new CursoParaAtualizar();
         dto.setCodigo("CURSO1");
         dto.setCodigoNovo("CURSO1ATUALIZADO");
         dto.setTitulo("Java Atualizado");
-        dto.setDescricao("Descrição Atualizada");
+        dto.setDescricao("");
         dto.setCargaHoraria(50L);
 
         Curso atualizado = cursoRepository.update(dto);
 
+        assertEquals("CURSO1ATUALIZADO", atualizado.getCodigo());
         assertEquals("Java Atualizado", atualizado.getTitulo());
+        assertEquals("Curso Antigo", atualizado.getDescricao());
         assertEquals(50L, atualizado.getCargaHoraria());
     }
     // ----------------------------------------------------
-    //  Cenário 6: procurar curso com codigo antigo
+    // ✅ Cenário 5: atualizar curso com sucesso com vários campos vazios
     // ----------------------------------------------------
+    @Test
+    void deveAtualizarComSucessoVariosCamposVazios(){
+        cursoRepository.create(
+                Curso.builder()
+                        .codigo("CURSO1")
+                        .titulo("Java")
+                        .descricao("Curso Antigo")
+                        .cargaHoraria(30L)
+                        .build());
+
+        CursoParaAtualizar dto = new CursoParaAtualizar();
+        dto.setCodigo("CURSO1");
+        dto.setCodigoNovo("");
+        dto.setTitulo("    ");
+        dto.setDescricao("Curso Atualizado");
+        dto.setCargaHoraria(null);
+
+        Curso atualizado = cursoRepository.update(dto);
+
+        assertEquals("CURSO1", atualizado.getCodigo());
+        assertEquals("Java", atualizado.getTitulo());
+        assertEquals("Curso Atualizado", atualizado.getDescricao());
+        assertEquals(30L, atualizado.getCargaHoraria());
+    }
+
+
+    // ----------------------------------------------------
+    //  Cenário 7: procurar curso com codigo antigo
+    // ----------------------------------------------------
+
+
     @Test
     void deveChecarAtualizacao() {
         cursoRepository.create(new Curso("CURSO1", "Java", "Curso Antigo", 30L));
@@ -148,7 +187,7 @@ class CursoRepositoryTestIntegration {
     }
 
     // ----------------------------------------------------
-    // ⚠️ Cenário 7: tentar atualizar código para outro já existente
+    // ⚠️ Cenário 8: tentar atualizar código para outro já existente
     // ----------------------------------------------------
     @Test
     void deveLancarErroAoAtualizarComCodigoDuplicado() {
@@ -163,7 +202,7 @@ class CursoRepositoryTestIntegration {
     }
 
     // ----------------------------------------------------
-    // ✅ Cenário 8: deletar curso existente
+    // ✅ Cenário 9: deletar curso existente
     // ----------------------------------------------------
     @Test
     void deveDeletarCursoComSucesso() {
@@ -174,7 +213,7 @@ class CursoRepositoryTestIntegration {
     }
 
     // ----------------------------------------------------
-    // ⚠️ Cenário 9: deletar curso inexistente
+    // ⚠️ Cenário 10: deletar curso inexistente
     // ----------------------------------------------------
     @Test
     void deveLancarErroAoDeletarCursoInexistente() {
