@@ -5,6 +5,7 @@ import com.example.cursomaker.domain.model.CursoParaAtualizar;
 import com.example.cursomaker.exceptions.Erro409;
 import com.example.cursomaker.exceptions.CursoNaoEncontrado;
 import com.example.cursomaker.exceptions.NenhumCursoEncontrado;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -38,14 +39,15 @@ public class CursoRepository {
     public Curso findByCodigo(String codigo) {
         return this.cursoMongoRepository.findByCodigo(codigo).map(CursoEntity::toDomain).orElseThrow(()-> new CursoNaoEncontrado("Curso não encontrado"));
     }
-    public Curso create(Curso curso) {
-        CursoEntity cursoParaCriar = new CursoEntity(curso);
-        if (cursoMongoRepository.existsByCodigo(curso.getCodigo())) {
-            throw new Erro409("Curso com o mesmo código ja existente");
-        }
-        this.cursoMongoRepository.save(cursoParaCriar);
-        return curso;
-    }
+ public Curso create(Curso curso) {
+     CursoEntity cursoParaCriar = new CursoEntity(curso);
+     try {
+         cursoMongoRepository.save(cursoParaCriar);
+     } catch (DuplicateKeyException e) {
+         throw new Erro409("Curso com o mesmo código já existente");
+     }
+     return curso;
+ }
     public Curso update(CursoParaAtualizar dto) {
         CursoEntity entity = this.cursoMongoRepository.findByCodigo(dto.getCodigo())
                 .orElseThrow(() -> new CursoNaoEncontrado("Curso não encontrado"));
@@ -72,6 +74,7 @@ public class CursoRepository {
         this.cursoMongoRepository.save(entity);
         return entity.toDomain();
     }
+
     public void delete(String codigo) {
         if(!this.cursoMongoRepository.existsByCodigo(codigo)){
             throw new CursoNaoEncontrado("Curso não encontrado");

@@ -84,7 +84,7 @@ class CursoSoapTestE2E {
                 .exchange()
                 .expectStatus().is5xxServerError()
                 .expectBody(String.class)
-                .value(response -> assertTrue(response.contains("Curso com o mesmo código ja existente")));
+                .value(response -> assertTrue(response.contains("Curso com o mesmo código já existente")));
     }
     @Test
     @Order(3)
