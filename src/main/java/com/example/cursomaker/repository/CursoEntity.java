@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -37,11 +38,5 @@ public class CursoEntity {
 
     public Curso toDomain(){
         return new Curso(codigo, titulo, descricao, cargaHoraria);
-    }
-    public void update(Curso curso){
-        if (curso.getCodigo() != null && !curso.getCodigo().isBlank()) this.codigo = curso.getCodigo();
-        if (curso.getTitulo() != null && !curso.getTitulo().isBlank()) this.titulo = curso.getTitulo();
-        if (curso.getDescricao() != null && !curso.getDescricao().isBlank()) this.descricao = curso.getDescricao();
-        if (curso.getCargaHoraria() != null) this.cargaHoraria = curso.getCargaHoraria();
     }
 }
