@@ -5,7 +5,6 @@ import com.example.cursomaker.domain.model.CursoParaAtualizar;
 import com.example.cursomaker.exceptions.Erro409;
 import com.example.cursomaker.exceptions.CursoNaoEncontrado;
 import com.example.cursomaker.exceptions.NenhumCursoEncontrado;
-import com.mongodb.client.result.UpdateResult;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
@@ -14,7 +13,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

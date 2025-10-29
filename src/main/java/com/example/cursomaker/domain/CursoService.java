@@ -44,6 +44,7 @@ public class CursoService {
         return this.cursoRepository.update(curso);
     }
     public void delete(String codigo) {
+        cursoValidator.validarDelecao(codigo);
         this.cursoRepository.delete(codigo);
     }
 }

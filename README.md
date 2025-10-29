@@ -114,6 +114,7 @@ Os testes foram projetados para se alinharem à função e responsabilidade prin
 
     * A lógica é simples, pois a maior chance de falhas está dentro dos mocks (CursoValidator e CursoRepository)
     * Caso o projeto venha ter mais serviços, este teste unitário se tornará mais valioso.
+    * Não vi necessidade de utilizar os asserts do Junit. Só utilizei verify do mockito para garantir que os métodos certos foram chamados dos mocks
 
 #### [CursoRestTestE2E](./src/test/java/com/example/cursomaker/controller/rest/CursoRestTestE2E.java), [CursoGraphqlTestE2E](./src/test/java/com/example/cursomaker/controller/graphql/CursoGraphqlTestE2E.java) e [CursoSoapTestE2E](./src/test/java/com/example/cursomaker/controller/soap/CursoSoapTestE2E.java)
 

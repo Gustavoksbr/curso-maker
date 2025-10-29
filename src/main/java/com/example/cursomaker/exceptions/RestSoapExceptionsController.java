@@ -6,6 +6,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -48,6 +49,13 @@ public class RestSoapExceptionsController {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Corpo da requisição inválido: "+ex.getMessage());
+    }
+
+    // faltou colocar path variable. So vai acontecer no REST
+    //400
+    @ExceptionHandler(MissingPathVariableException.class)
+    public ResponseEntity<String> handleMissingPathVariableException(MissingPathVariableException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Precisa informar o path variable: {" + ex.getVariableName()+"}");
     }
 
 

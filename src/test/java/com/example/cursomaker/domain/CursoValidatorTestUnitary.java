@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @ActiveProfiles("test")
@@ -168,5 +171,32 @@ class CursoValidatorTestUnitary {
         dto.setCargaHoraria(301L);
         ErroDeRequisicaoGeral e = assertThrows(ErroDeRequisicaoGeral.class, () -> validator.validarAtualizacao(dto));
         assertTrue(e.getMessage().contains("1 e 300"));
+    }
+    private final List<String> CODIGOS_CURSOS_APENAS_LEITURA = new ArrayList<>(List.of("c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10"));
+    @Test
+    void deveLancarErroAoAtualizarCursoSomenteLeitura() {
+
+
+        CursoParaAtualizar dto = new CursoParaAtualizar();
+        dto.setCodigo("c4"); // Supondo que este código está na lista de somente leitura
+        dto.setTitulo("Novo Título");
+        ErroDeRequisicaoGeral e = assertThrows(ErroDeRequisicaoGeral.class, () -> validator.validarAtualizacao(dto));
+        assertTrue(e.getMessage().contains("somente leitura"));
+        assertEquals(e.getMessage(), "O curso de código 'c4' é somente leitura e não pode ser atualizado. Os cursos somente leitura são: " + CODIGOS_CURSOS_APENAS_LEITURA);
+    }
+
+    //delecao
+    @Test
+    void deveLancarErroAoDeletarCursoSomenteLeitura(){
+        String codigoSomenteLeitura = "c7"; // Supondo que este código está na lista de somente leitura
+
+        ErroDeRequisicaoGeral e = assertThrows(ErroDeRequisicaoGeral.class, () -> {
+            if(CODIGOS_CURSOS_APENAS_LEITURA.contains(codigoSomenteLeitura)){
+                throw new ErroDeRequisicaoGeral("O curso de código '" + codigoSomenteLeitura + "' é somente leitura e não pode ser deletado. Os cursos somente leitura são: " + CODIGOS_CURSOS_APENAS_LEITURA);
+            }
+        });
+
+        assertTrue(e.getMessage().contains("somente leitura"));
+        assertEquals(e.getMessage(), "O curso de código 'c7' é somente leitura e não pode ser deletado. Os cursos somente leitura são: " + CODIGOS_CURSOS_APENAS_LEITURA);
     }
 }

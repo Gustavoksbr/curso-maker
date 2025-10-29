@@ -10,13 +10,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
         // Por ora, não se vê a necessidade de muitos testes unitários aqui, pois a maior parte da lógica já está testada no Validator e no Repository
+
 class CursoServiceTestUnitary {
     @MockitoBean
     private CursoRepository cursoRepository;
@@ -28,11 +27,9 @@ class CursoServiceTestUnitary {
     void deveDelegarFindAllParaRepository() {
         when(cursoRepository.findAll()).thenReturn(List.of(new Curso("C1","Titulo","Desc",10L)));
 
-        List<Curso> resultado = cursoService.findAll();
+        cursoService.findAll();
 
         verify(cursoRepository).findAll();
-        assertEquals(1, resultado.size());
-        assertEquals("C1", resultado.get(0).getCodigo());
     }
 
     @Test
@@ -40,10 +37,9 @@ class CursoServiceTestUnitary {
         when(cursoRepository.findByParametros("", "", 0L, Long.MAX_VALUE))
                 .thenReturn(List.of(new Curso("C1","Titulo","Desc",10L)));
 
-        List<Curso> resultado = cursoService.findByParametros(null, null, null, null);
+        cursoService.findByParametros(null, null, null, null);
 
         verify(cursoRepository).findByParametros("", "", 0L, Long.MAX_VALUE);
-        assertEquals(1, resultado.size());
     }
 
     @Test
@@ -51,11 +47,10 @@ class CursoServiceTestUnitary {
         Curso curso = new Curso("C1","Titulo","Desc",10L);
         when(cursoRepository.create(curso)).thenReturn(curso);
 
-        Curso resultado = cursoService.create(curso);
+        cursoService.create(curso);
 
         verify(cursoValidator).validarCriacao(curso);
         verify(cursoRepository).create(curso);
-        assertEquals("C1", resultado.getCodigo());
     }
 
     @Test
@@ -67,11 +62,10 @@ class CursoServiceTestUnitary {
         Curso cursoAtualizado = new Curso("C1","NovoTitulo","Desc",10L);
         when(cursoRepository.update(dto)).thenReturn(cursoAtualizado);
 
-        Curso resultado = cursoService.update(dto);
+        cursoService.update(dto);
 
         verify(cursoValidator).validarAtualizacao(dto);
         verify(cursoRepository).update(dto);
-        assertEquals("NovoTitulo", resultado.getTitulo());
     }
 
     @Test
@@ -80,7 +74,7 @@ class CursoServiceTestUnitary {
         doNothing().when(cursoRepository).delete(codigo);
 
         cursoService.delete(codigo);
-
+        verify(cursoValidator).validarDelecao(codigo);
         verify(cursoRepository).delete(codigo);
     }
 

@@ -6,12 +6,12 @@ type Curso {
 }
 
 type Query {
-    listCursos(titulo: String, descricao: String, minCargaHoraria: Int, maxCargaHoraria : Int): [Curso]!
+    listCursos(titulo: String, descricao: String, minCargaHoraria: Int, maxCargaHoraria : Int): [Curso]
     getCursoByCodigo(codigo: String!): Curso
 }
 
 type Mutation {
     createCurso(codigo: String!, titulo: String, descricao: String, cargaHoraria: Int): Curso
     updateCurso(codigo: String!, codigoNovo: String ,  titulo: String, descricao: String, cargaHoraria: Int): Curso
-deleteCurso(codigo: String!): Boolean!
+    deleteCurso(codigo: String!): Boolean
 }

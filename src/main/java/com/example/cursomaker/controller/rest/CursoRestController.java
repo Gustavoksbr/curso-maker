@@ -22,7 +22,7 @@ public class CursoRestController {
         this.cursoService = cursoService;
     }
 
-   @GetMapping()
+   @GetMapping({"", "/"})
     public ResponseEntity<List<Curso>> cursos(@RequestParam (required = false) String titulo,
                                               @RequestParam (required = false) String descricao,
                                               @RequestParam (required = false) Long minCargaHoraria,
@@ -44,7 +44,7 @@ public class CursoRestController {
         return ResponseEntity.status(201).body(createdCurso);
     }
 
-    @PutMapping("/{codigo}")
+    @PutMapping({"/{codigo}", "/"})
     public ResponseEntity<Curso> updateCurso(@RequestBody CursoParaAtualizarRestRequest cursoRequest, @PathVariable String codigo) {
         CursoParaAtualizar cursoParaAtualizar = CursoParaAtualizar.builder()
                 .codigo(codigo)

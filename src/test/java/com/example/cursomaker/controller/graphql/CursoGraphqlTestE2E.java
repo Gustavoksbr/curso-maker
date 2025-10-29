@@ -324,4 +324,6 @@ class CursoGraphqlTestE2E {
                 .expectBody()
                 .jsonPath("$.errors[0].message").exists();
     }
+
+
 }

@@ -5,12 +5,15 @@ import com.example.cursomaker.domain.model.CursoParaAtualizar;
 import com.example.cursomaker.exceptions.ErroDeRequisicaoGeral;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Component
 public class CursoValidator {
 
     private static final Pattern CODIGO_PATTERN = Pattern.compile("^[A-Za-zÀ-ÿ0-9 ]+$");
+    private static final List<String> CODIGOS_CURSOS_APENAS_LEITURA = new ArrayList<>(List.of("c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10"));
 
     public void validarCriacao(Curso dto) {
 
@@ -55,6 +58,10 @@ public class CursoValidator {
 
         if (isBlank(dto.getCodigo())) {
             throw new ErroDeRequisicaoGeral("Escolha o código do curso que deseja atualizar.");
+        }else{
+            if(CODIGOS_CURSOS_APENAS_LEITURA.contains(dto.getCodigo())){
+                throw new ErroDeRequisicaoGeral("O curso de código '" + dto.getCodigo() + "' é somente leitura e não pode ser atualizado. Os cursos somente leitura são: " + CODIGOS_CURSOS_APENAS_LEITURA);
+            }
         }
 
         if (!isBlank(dto.getCodigoNovo())) {
@@ -82,6 +89,12 @@ public class CursoValidator {
                 throw new ErroDeRequisicaoGeral("Campo 'cargaHoraria': deve estar entre 1 e 300.");
             }
         }
+    }
+
+    public void validarDelecao(String codigo) {
+            if(CODIGOS_CURSOS_APENAS_LEITURA.contains(codigo)){
+                throw new ErroDeRequisicaoGeral("O curso de código '" + codigo + "' é somente leitura e não pode ser deletado. Os cursos somente leitura são: " + CODIGOS_CURSOS_APENAS_LEITURA);
+            }
     }
 
     private boolean isBlank(String s) {
